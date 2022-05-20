@@ -6,6 +6,11 @@ import "@nomiclabs/hardhat-waffle";
 import "@typechain/hardhat";
 import "solidity-coverage";
 
+import "./task/addProposal.ts"
+import "./task/deposit.ts"
+import "./task/finishProposal.ts"
+import "./task/vote.ts"
+
 
 dotenv.config();
 
@@ -36,15 +41,9 @@ const config: HardhatUserConfig = {
       url: process.env.ALCHEMY_URL,
       chainId: 4,
     },
-    bscTestnet: {
-      accounts: process.env.PRIVATE_KEY !== undefined ? [process.env.PRIVATE_KEY] : [],
-      url: process.env.BSCRPC_API,
-      chainId: 97,
-    }
   },
   etherscan: {
-    // apiKey: process.env.ETHERSCAN_API,
-    apiKey: process.env.BSCSCAN_API,
+    apiKey: process.env.ETHERSCAN_API,
   },
 };
 
