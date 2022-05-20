@@ -68,6 +68,7 @@ contract DAO is AccessControl {
     function deposit(uint256 amount) external returns(bool) {
         voteToken.safeTransferFrom(msg.sender, address(this), amount);
         voters[msg.sender].depositedAmount += amount;
+        voters[msg.sender].depositPeriod = block.timestamp;
 
         return true;
     }
@@ -89,6 +90,9 @@ contract DAO is AccessControl {
 
         proposals[_propId].position[position] += amount;
         voters[msg.sender].voteCount[_propId] += amount;
+        voters[msg.sender].depositPeriod = 
+            voters[msg.sender].depositPeriod >= proposals[_propId].timeStamp ? 
+            voters[msg.sender].depositPeriod : proposals[_propId].timeStamp;
 
         return true;
     }
