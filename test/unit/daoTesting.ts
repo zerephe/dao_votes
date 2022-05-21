@@ -161,16 +161,16 @@ describe("Token bridge", function () {
 
     it("Should be reverted if call was not successfull", async function() {
       const iface = new ethers.utils.Interface([
-        "function updateProposalParams(address _voteTokenAddress, uint256 _minQ, uint256 _dabatePeriod)"
+        "function updateProposalParam(address _voteTokenAddress, uint256 _minQ, uint256 _dabatePeriod)"
       ]);
       const voteTokenAddress = addr1.address;
-      const calldata = iface.encodeFunctionData('updateProposalParams',[voteTokenAddress, 500, 5000]);
+      const calldata = iface.encodeFunctionData('updateProposalParam',[voteTokenAddress, 500, 5000]);
 
       await daoInstance.addProposal(daoInstance.address, calldata, "Update token, min quorum, debate period");
 
       await tokenInstance.approve(daoInstance.address, 1000);
       await daoInstance.deposit(1000);
-      await daoInstance.vote(0, 1000, false);
+      await daoInstance.vote(0, 1000, true);
 
       await ethers.provider.send('evm_increaseTime', [60000]);
       await ethers.provider.send('evm_mine', []);
